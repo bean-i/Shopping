@@ -1,13 +1,11 @@
 //
 //  BaseCollectionViewCell.swift
-//  CodeBaseAutoLayout
+//  TamaJoy
 //
-//  Created by 이빈 on 1/16/25.
+//  Created by 이빈 on 2/21/25.
 //
 
 import UIKit
-import SnapKit
-import Kingfisher
 
 class BaseCollectionViewCell: UICollectionViewCell {
     

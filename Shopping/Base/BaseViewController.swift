@@ -1,38 +1,54 @@
 //
 //  BaseViewController.swift
-//  CodeBaseAutoLayout
+//  TamaJoy
 //
-//  Created by 이빈 on 1/16/25.
+//  Created by 이빈 on 2/21/25.
 //
 
 import UIKit
-import Alamofire
-import SnapKit
-import Kingfisher
+import RxSwift
+import RxCocoa
 
-class BaseViewController: UIViewController {
+class BaseViewController<T: UIView>: UIViewController {
+    
+    var mainView: T {
+        return view as! T
+    }
+    
+//    var viewModel: any BaseViewModel
+//    var disposeBag = DisposeBag()
+//    
+//    init(model: any BaseViewModel) {
+//        self.viewModel = model
+//        super.init(nibName: nil, bundle: nil)
+//    }
+    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
+    override func loadView() {
+        self.view = T(frame: UIScreen.main.bounds)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureBasicDesign()
-        configureHierarchy()
-        configureLayout()
-        configureView()
-        configureDelegate()
+        configureRegister()
+        bind()
     }
     
-    func configureBasicDesign() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         view.backgroundColor = .black
-        navigationController?.navigationBar.tintColor = .white
-        navigationItem.backButtonTitle = ""
-//        navigationController?.navigationBar.topItem?.title = ""
+        configureNavigation()
     }
     
-    func configureHierarchy() { }
+    func configureNavigation() {
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+    }
     
-    func configureLayout() { }
+    func configureRegister() { }
     
-    func configureView() { }
+    func bind() { }
     
-    func configureDelegate() { }
 }
