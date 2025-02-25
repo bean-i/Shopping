@@ -7,83 +7,66 @@
 
 import UIKit
 import Alamofire
+import RxSwift
+import RxCocoa
 
-enum Sort: String, CaseIterable {
-    case byAccuracy = "정확도"
-    case byDate = "날짜순"
-    case byHighestPrice = "가격높은순"
-    case byLowestPrice = "가격낮은순"
-    
-    var apiParameter: String {
-        switch self {
-        case .byAccuracy:
-            return "sim"
-        case .byDate:
-            return "date"
-        case .byHighestPrice:
-            return "dsc"
-        case .byLowestPrice:
-            return "asc"
-        }
-    }
+enum APIError: Error {
+    case invalidURL
+    case naverError(code: String)
+    case afError
 }
 
-struct QueryParameters {
-    var searchKeyword: String = ""
-    let display = 100
-    var start = 1
-    var sort = Sort.byAccuracy.apiParameter
+struct ShoppingError: Decodable {
+    let errorMessage: String
+    let errorCode: String
 }
 
-class ShoppingNetworkManager {
+final class ShoppingNetworkManager {
     
     static let shared = ShoppingNetworkManager()
     
     private init() { }
     
     func getShoppingData<T: Decodable>(api: Router,
-                                    type: T.Type,
-    completionHandler: @escaping (T) -> Void) {
-        
-        guard let endpoint = api.endpoint else {
-            print("url 오류")
-            return
-        }
-        
-        AF.request(endpoint,
-                   method: api.method,
-                   parameters: api.parameters,
-                   encoding: URLEncoding.queryString,
-                   headers: api.header)
-//        .validate(statusCode: 200..<400)
-        .responseDecodable(of: T.self) { response in
-            switch response.result {
-            case .success(let value):
-                print("success")
-                completionHandler(value)
-            case .failure(let error):
-                print("fail")
-                print(error)
+                                       type: T.Type) -> Single<T> {
+        return Single.create { value in
+            guard let endpoint = api.endpoint else {
+                value(.failure(APIError.invalidURL))
+                return Disposables.create {
+                    print("통신 끝")
+                }
+            }
+            
+            AF.request(endpoint,
+                       method: api.method,
+                       parameters: api.parameters,
+                       encoding: URLEncoding.queryString,
+                       headers: api.header)
+            .responseDecodable(of: T.self) { response in
+                switch response.result {
+                case .success(let result):
+                    if let data = response.data {
+                        do { // 정상으로 들어오지만, 네이버 에러에 해당하면 에러 방출
+                            let decodeData = try JSONDecoder().decode(ShoppingError.self, from: data)
+                            value(.failure(APIError.naverError(code: decodeData.errorCode)))
+                        } catch { // 에러로 디코딩 되지 않으면 네트워크 성공으로 간주
+                            value(.success(result))
+                        }
+                    }
+                case .failure(let error):
+                    if let data = response.data {
+                        do { // 네이버 에러에 해당하면 에러 방출
+                            let decodeData = try JSONDecoder().decode(ShoppingError.self, from: data)
+                            value(.failure(APIError.naverError(code: decodeData.errorCode)))
+                        } catch { // alamofire 에러
+                            value(.failure(APIError.afError))
+                        }
+                    }
+                }
+            }
+            return Disposables.create {
+                print("통신 끝")
             }
         }
     }
-    
-//    func getData(params: QueryParameters, completionHandler: @escaping (ShoppingData) -> Void) {
-//        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(params.searchKeyword!)&display=\(params.display)&sort=\(params.sort)&start=\(params.start)"
-//        
-//        AF.request(
-//            url,
-//            method: .get,
-//            headers: params.header
-//        )
-//            .responseDecodable(of: ShoppingData.self) { response in
-//            switch response.result {
-//            case .success(let value):
-//                completionHandler(value)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-    
 }
