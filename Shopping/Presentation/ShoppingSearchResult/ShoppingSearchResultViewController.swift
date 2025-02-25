@@ -1,0 +1,62 @@
+//
+//  ShoppingSearchResultViewController.swift
+//  CodeBaseAutoLayout
+//
+//  Created by 이빈 on 1/15/25.
+//
+
+import UIKit
+import SnapKit
+import RxSwift
+import RxCocoa
+
+final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearchResultView> {
+    
+    let viewModel = ShoppingSearchResultViewModel()
+    let disposeBag = DisposeBag()
+    
+    deinit {
+        print("ShoppingSearchResultViewController Deinit")
+    }
+    
+    override func configureRegister() {
+        mainView.shoppingCollectionView.register(ShoppingCollectionViewCell.self, forCellWithReuseIdentifier: ShoppingCollectionViewCell.identifier)
+    }
+    
+    override func bind() {
+        // 이전 화면에서 넘겨받은 타이틀 보여주기
+        let input = ShoppingSearchResultViewModel.Input(
+            sortChanged: mainView.sortCollectionView.rx.itemSelected
+        )
+        let output = viewModel.transform(input: input)
+        
+        // 타이틀
+        output.title
+            .bind(to: navigationItem.rx.title)
+            .disposed(by: disposeBag)
+        
+        // 쇼핑 아이템 컬렉션뷰
+        output.shoppingItems
+            .bind(to: mainView.shoppingCollectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.identifier, cellType: ShoppingCollectionViewCell.self)) { (row, element, cell) in
+                cell.setData(element)
+            }
+            .disposed(by: disposeBag)
+        
+        // 총 검색 결과 개수
+        output.totalCount
+            .bind(to: mainView.resultCountLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 정렬 버튼 컬렉션뷰
+        output.sortItems
+            .bind(to: mainView.sortCollectionView.rx.items(cellIdentifier: SortCollectionViewCell.identifier, cellType: SortCollectionViewCell.self)) { [weak self] (item, element, cell) in
+                if item == 0 {
+                    self?.mainView.sortCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .bottom)
+                }
+                cell.sortLabel.text = element
+                
+            }
+            .disposed(by: disposeBag)
+    }
+
+}

@@ -43,10 +43,13 @@ final class SortCollectionViewCell: BaseCollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
+            print("선택됨")
             if isSelected {
+                print("선택 O")
                 backView.backgroundColor = .white
                 sortLabel.textColor = .black
             } else {
+                print("선택 X")
                 backView.backgroundColor = .black
                 sortLabel.textColor = .white
             }
