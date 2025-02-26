@@ -57,6 +57,16 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
                 
             }
             .disposed(by: disposeBag)
+        
+        // 네트워크 통신 에러
+        output.networkError
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { owner, value in
+                owner.showAlert(title: value,
+                                message: "\(value)가 발생했습니다. 다시 시도해 주세요.",
+                                button: "확인")
+            }
+            .disposed(by: disposeBag)
     }
 
 }

@@ -23,6 +23,7 @@ final class ShoppingSearchResultViewModel: BaseViewModel {
         let shoppingItems: PublishRelay<[ShoppingItem]>
         let totalCount: PublishRelay<String>
         let sortItems: BehaviorRelay<[String]> = BehaviorRelay(value: Sort.allCases.map { $0.rawValue })
+        let networkError: PublishRelay<String>
     }
     
     func transform(input: Input) -> Output {
@@ -31,6 +32,7 @@ final class ShoppingSearchResultViewModel: BaseViewModel {
         let items = PublishRelay<[ShoppingItem]>()
         
         let total = PublishRelay<String>()
+        let networkError = PublishRelay<String>()
 
         Observable.combineLatest(
             input.sortChanged,
@@ -44,10 +46,13 @@ final class ShoppingSearchResultViewModel: BaseViewModel {
                     switch error as? APIError {
                     case .invalidURL:
                         print("invalidURL 에러 발생")
+                        networkError.accept("invalidURL 에러")
                     case .naverError(let code):
                         print("\(code) 에러 발생")
+                        networkError.accept("\(code) 에러")
                     case .afError:
-                        print("알 수 없는 에러 발생")
+                        print("통신 에러")
+                        networkError.accept("AF 통신 에러")
                     case .none:
                         break
                     }
@@ -76,10 +81,13 @@ final class ShoppingSearchResultViewModel: BaseViewModel {
                         switch error as? APIError {
                         case .invalidURL:
                             print("invalidURL 에러 발생")
+                            networkError.accept("invalidURL 에러")
                         case .naverError(let code):
                             print("\(code) 에러 발생")
+                            networkError.accept("\(code) 에러")
                         case .afError:
-                            print("알라모파이어 자체 에러 발생")
+                            print("통신 에러")
+                            networkError.accept("AF 통신 에러")
                         case .none:
                             break
                         }
@@ -103,7 +111,8 @@ final class ShoppingSearchResultViewModel: BaseViewModel {
         return Output(
             title: title,
             shoppingItems: items,
-            totalCount: total
+            totalCount: total,
+            networkError: networkError
         )
     }
     
