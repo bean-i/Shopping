@@ -9,7 +9,7 @@ import Foundation
 
 struct QueryParameters {
     var searchKeyword: String = ""
-    let display = 100
+    var display = 100
     var start = 1
     var sort = Sort.byAccuracy.apiParameter
 }

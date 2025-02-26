@@ -26,7 +26,10 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
     override func bind() {
         // 이전 화면에서 넘겨받은 타이틀 보여주기
         let input = ShoppingSearchResultViewModel.Input(
-            sortChanged: mainView.sortCollectionView.rx.itemSelected
+            sortChanged: mainView.sortCollectionView.rx.itemSelected,
+            prefetch: mainView.shoppingCollectionView.rx.prefetchItems
+                .map { $0.last?.row ?? 0
+                }
         )
         let output = viewModel.transform(input: input)
         
@@ -65,6 +68,13 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
                 owner.showAlert(title: value,
                                 message: "\(value)가 발생했습니다. 다시 시도해 주세요.",
                                 button: "확인")
+            }
+            .disposed(by: disposeBag)
+        
+        // scrollToTop
+        output.sorted
+            .bind(with: self) { owner, _ in
+                owner.mainView.shoppingCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             }
             .disposed(by: disposeBag)
     }
