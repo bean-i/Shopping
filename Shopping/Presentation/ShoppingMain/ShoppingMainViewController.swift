@@ -46,5 +46,22 @@ final class ShoppingMainViewController: BaseViewController<ShoppingMainView> {
                 print("output.searchSuccess onDisposed")
             }
             .disposed(by: disposeBag)
+        
+        // 네비게이션 버튼
+        output.barButton
+            .map {
+                UIBarButtonItem(image: UIImage(systemName: $0), style: .plain, target: nil, action: nil)
+            }
+            .bind(to: navigationItem.rx.rightBarButtonItem)
+            .disposed(by: disposeBag)
+        
+        // 네비게이션 버튼 -> 화면 전환
+        navigationItem.rightBarButtonItem?.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = WishListViewController()
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
     }
 }

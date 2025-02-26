@@ -21,6 +21,7 @@ final class ShoppingMainViewModel: BaseViewModel {
         let title: Observable<String> = Observable.just("도봉러의 쇼핑쇼핑")
         let searchFail: PublishSubject<Bool>
         let searchSuccess: PublishSubject<String>
+        let barButton = Observable.just("plus")
     }
     
     func transform(input: Input) -> Output {
