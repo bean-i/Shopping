@@ -53,7 +53,7 @@ final class LikeListTableViewCell: BaseTableViewCell {
         labelView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(mainImage.snp.trailing).offset(10)
-            make.trailing.equalTo(likeButton.snp.leading).inset(10)
+            make.trailing.equalToSuperview().inset(40)
         }
         
         mallName.snp.makeConstraints { make in
@@ -84,10 +84,6 @@ final class LikeListTableViewCell: BaseTableViewCell {
         
         mainImage.layer.cornerRadius = 15
         mainImage.clipsToBounds = true
-        
-        likeButton.tintColor = .white
-        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         mallName.font = .systemFont(ofSize: 12)
         mallName.textColor = .lightGray
