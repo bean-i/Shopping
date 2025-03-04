@@ -9,11 +9,18 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearchResultView> {
     
     let viewModel = ShoppingSearchResultViewModel()
     let disposeBag = DisposeBag()
+    let realm = try! Realm()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(realm.configuration.fileURL)
+    }
     
     deinit {
         print("ShoppingSearchResultViewController Deinit")
@@ -42,6 +49,12 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
         output.shoppingItems
             .bind(to: mainView.shoppingCollectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.identifier, cellType: ShoppingCollectionViewCell.self)) { (row, element, cell) in
                 cell.setData(element)
+                cell.likeButton.rx.tap
+                    .bind(with: self) { owner, _ in
+                        print("likebuttonTapped")
+                        cell.likeButton.updateLikeStatusCollection(cell: cell, data: element)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -78,5 +91,4 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
             }
             .disposed(by: disposeBag)
     }
-
 }

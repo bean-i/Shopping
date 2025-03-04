@@ -8,19 +8,30 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     
     static let identifier = "ShoppingCollectionViewCell"
     
-    private let mainIamge = UIImageView()
-    private let mallName = UILabel()
-    private let title = UILabel()
-    private let price = UILabel()
+    let mainImage = UIImageView()
+    let likeButton = LikeButton()
+    let mallName = UILabel()
+    let title = UILabel()
+    let price = UILabel()
+    
+    var disposeBag = DisposeBag()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
     
     override func configureHierarchy() {
         [
-            mainIamge,
+            mainImage,
+            likeButton,
             mallName,
             title,
             price
@@ -28,13 +39,19 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     }
   
     override func configureLayout() {
-        mainIamge.snp.makeConstraints { make in
+        mainImage.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(contentView.frame.width)
         }
         
+        likeButton.snp.makeConstraints { make in
+            make.trailing.equalTo(mainImage.snp.trailing).inset(5)
+            make.bottom.equalTo(mainImage.snp.bottom).inset(5)
+            make.size.equalTo(20)
+        }
+        
         mallName.snp.makeConstraints { make in
-            make.top.equalTo(mainIamge.snp.bottom).offset(5)
+            make.top.equalTo(mainImage.snp.bottom).offset(5)
             make.horizontalEdges.equalTo(contentView.snp.horizontalEdges).inset(10)
         }
         
@@ -51,8 +68,12 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureView() {
-        mainIamge.layer.cornerRadius = 15
-        mainIamge.clipsToBounds = true
+        mainImage.layer.cornerRadius = 15
+        mainImage.clipsToBounds = true
+        
+        likeButton.tintColor = .black
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         mallName.font = .systemFont(ofSize: 12)
         mallName.textColor = .lightGray
@@ -69,7 +90,7 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     
     func setData(_ item: ShoppingItem) {
         let imgURL = URL(string: item.image)
-        mainIamge.kf.setImage(with: imgURL, placeholder: UIImage(systemName: "arrowshape.down"))
+        mainImage.kf.setImage(with: imgURL, placeholder: UIImage(systemName: "arrowshape.down"))
         price.text = NumberFormatterManager.shared.format(number: Int(item.lprice)!)
         mallName.text = item.mallName
         title.text = item.title.escapingHTML
