@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RealmSwift
+import Toast
 
 final class LikeListViewController: BaseViewController<LikeListView> {
 
@@ -39,6 +40,7 @@ final class LikeListViewController: BaseViewController<LikeListView> {
                         print("like button tap")
                         cell.likeButton.updateLikeStatusTable(cell: cell, data: element)
                         owner.items.accept(Array(owner.list))
+                        owner.view.makeToast("해당 상품을 저장 목록에서 삭제합니다.")
                     }
                     .disposed(by: cell.disposeBag)
                 

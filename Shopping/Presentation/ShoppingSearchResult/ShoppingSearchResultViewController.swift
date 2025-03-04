@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import RealmSwift
+import Toast
 
 final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearchResultView> {
     
@@ -47,12 +48,26 @@ final class ShoppingSearchResultViewController: BaseViewController<ShoppingSearc
         
         // 쇼핑 아이템 컬렉션뷰
         output.shoppingItems
-            .bind(to: mainView.shoppingCollectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.identifier, cellType: ShoppingCollectionViewCell.self)) { (row, element, cell) in
+            .bind(to: mainView.shoppingCollectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.identifier, cellType: ShoppingCollectionViewCell.self)) { [weak self] (row, element, cell) in
+                guard let self else { return }
+                
                 cell.setData(element)
+
+                if realm.objects(LikeTable.self).where({ $0.id == element.id }).isEmpty {
+                    cell.likeButton.isSelected = false
+                } else {
+                    cell.likeButton.isSelected = true
+                }
+                
                 cell.likeButton.rx.tap
                     .bind(with: self) { owner, _ in
                         print("likebuttonTapped")
                         cell.likeButton.updateLikeStatusCollection(cell: cell, data: element)
+                        if cell.likeButton.isSelected {
+                            owner.view.makeToast("해당 상품을 저장 목록에 추가합니다.")
+                        } else {
+                            owner.view.makeToast("해당 상품을 저장 목록에서 삭제합니다.")
+                        }
                     }
                     .disposed(by: cell.disposeBag)
             }

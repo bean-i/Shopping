@@ -47,7 +47,7 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
         likeButton.snp.makeConstraints { make in
             make.trailing.equalTo(mainImage.snp.trailing).inset(5)
             make.bottom.equalTo(mainImage.snp.bottom).inset(5)
-            make.size.equalTo(20)
+            make.size.equalTo(30)
         }
         
         mallName.snp.makeConstraints { make in
@@ -70,10 +70,6 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         mainImage.layer.cornerRadius = 15
         mainImage.clipsToBounds = true
-        
-        likeButton.tintColor = .black
-        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         mallName.font = .systemFont(ofSize: 12)
         mallName.textColor = .lightGray

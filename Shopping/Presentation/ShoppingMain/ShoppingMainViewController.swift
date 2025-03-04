@@ -64,11 +64,5 @@ final class ShoppingMainViewController: BaseViewController<ShoppingMainView> {
             }
             .disposed(by: disposeBag)
         
-//        mainView.likeButton.rx.tap
-//            .bind(with: self) { owner, _ in
-//                owner.mainView.likeButton.buttonTapped()
-//            }
-//            .disposed(by: disposeBag)
-        
     }
 }

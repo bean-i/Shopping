@@ -22,6 +22,7 @@ final class LikeButton: UIButton {
     }
     
     private func configureButton() {
+        self.configuration = UIButton.Configuration.customStyle()
         self.setImage(UIImage(systemName: "heart"), for: .normal)
         self.setImage(UIImage(systemName: "heart.fill"), for: .selected)
     }
@@ -32,6 +33,7 @@ final class LikeButton: UIButton {
         // isSelected: false -> 삭제
         
         let new = LikeTable(
+            id: data.id,
             image: data.image,
             market: data.mallName,
             product: data.title,
@@ -42,7 +44,9 @@ final class LikeButton: UIButton {
         if cell.likeButton.isSelected {
             addData(data: new)
         } else {
-            deleteData(data: new)
+            if let isExist = realm.objects(LikeTable.self).where({ $0.id == data.id }).first {
+                deleteData(data: isExist)
+            }
         }
     }
     
@@ -51,6 +55,7 @@ final class LikeButton: UIButton {
         // isSelected: true -> 저장
         // isSelected: false -> 삭제
         let new = LikeTable(
+            id: data.id,
             image: data.image,
             market: data.market,
             product: data.product,
