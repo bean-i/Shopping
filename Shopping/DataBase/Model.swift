@@ -10,19 +10,21 @@ import RealmSwift
 
 // 이미지, 마켓 이름, 상품 이름, 가격, 좋아요 여부
 class LikeTable: Object {
-    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted(primaryKey: true) var id: UUID
     @Persisted var image: String?
     @Persisted var market: String
     @Persisted(indexed: true) var product: String
     @Persisted var price: String
     @Persisted var isSelect: Bool
     
-    convenience init(image: String?,
+    convenience init(id: UUID,
+                     image: String?,
                      market: String,
                      product: String,
                      price: String,
                      isSelect: Bool) {
         self.init()
+        self.id = id
         self.image = image
         self.market = market
         self.product = product
