@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EA3BE6852D76F07D00741461 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EA3BE6842D76F07D00741461 /* RealmSwift */; };
+		EA3BE6D82D7754FD00741461 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = EA3BE6D72D7754FD00741461 /* Toast */; };
 		EA41840D2D6DAC1800C2A7E4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EA41840C2D6DAC1800C2A7E4 /* .gitignore */; };
 		EA41840F2D6DAC2A00C2A7E4 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41840E2D6DAC2A00C2A7E4 /* APIKey.swift */; };
 		EA41842B2D6DACCC00C2A7E4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = EA41842A2D6DACCC00C2A7E4 /* RxCocoa */; };
@@ -54,6 +55,7 @@
 				EA4184332D6DAD1000C2A7E4 /* Alamofire in Frameworks */,
 				EA41842D2D6DACCC00C2A7E4 /* RxSwift in Frameworks */,
 				EA41842B2D6DACCC00C2A7E4 /* RxCocoa in Frameworks */,
+				EA3BE6D82D7754FD00741461 /* Toast in Frameworks */,
 				EA4184362D6DADF400C2A7E4 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +107,7 @@
 				EA4184322D6DAD1000C2A7E4 /* Alamofire */,
 				EA4184352D6DADF400C2A7E4 /* Kingfisher */,
 				EA3BE6842D76F07D00741461 /* RealmSwift */,
+				EA3BE6D72D7754FD00741461 /* Toast */,
 			);
 			productName = Shopping;
 			productReference = EA4183F42D6DABC200C2A7E4 /* Shopping.app */;
@@ -140,6 +143,7 @@
 				EA4184312D6DAD1000C2A7E4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				EA4184342D6DADF400C2A7E4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				EA3BE6832D76F07D00741461 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				EA3BE6D62D7754FD00741461 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EA4183F52D6DABC200C2A7E4 /* Products */;
@@ -387,6 +391,14 @@
 				version = 20.0.1;
 			};
 		};
+		EA3BE6D62D7754FD00741461 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
 		EA4184292D6DACCC00C2A7E4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -426,6 +438,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EA3BE6832D76F07D00741461 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		EA3BE6D72D7754FD00741461 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EA3BE6D62D7754FD00741461 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 		EA41842A2D6DACCC00C2A7E4 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
