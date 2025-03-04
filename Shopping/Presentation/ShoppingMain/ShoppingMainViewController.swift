@@ -58,10 +58,17 @@ final class ShoppingMainViewController: BaseViewController<ShoppingMainView> {
         // 네비게이션 버튼 -> 화면 전환
         navigationItem.rightBarButtonItem?.rx.tap
             .subscribe(with: self) { owner, _ in
-                let vc = WishListViewController()
+//                let vc = WishListViewController()
+                let vc = LikeListViewController()
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
+        
+//        mainView.likeButton.rx.tap
+//            .bind(with: self) { owner, _ in
+//                owner.mainView.likeButton.buttonTapped()
+//            }
+//            .disposed(by: disposeBag)
         
     }
 }
