@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA3BE6852D76F07D00741461 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EA3BE6842D76F07D00741461 /* RealmSwift */; };
 		EA41840D2D6DAC1800C2A7E4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EA41840C2D6DAC1800C2A7E4 /* .gitignore */; };
 		EA41840F2D6DAC2A00C2A7E4 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41840E2D6DAC2A00C2A7E4 /* APIKey.swift */; };
 		EA41842B2D6DACCC00C2A7E4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = EA41842A2D6DACCC00C2A7E4 /* RxCocoa */; };
@@ -48,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA3BE6852D76F07D00741461 /* RealmSwift in Frameworks */,
 				EA4184302D6DACD600C2A7E4 /* SnapKit in Frameworks */,
 				EA4184332D6DAD1000C2A7E4 /* Alamofire in Frameworks */,
 				EA41842D2D6DACCC00C2A7E4 /* RxSwift in Frameworks */,
@@ -102,6 +104,7 @@
 				EA41842F2D6DACD600C2A7E4 /* SnapKit */,
 				EA4184322D6DAD1000C2A7E4 /* Alamofire */,
 				EA4184352D6DADF400C2A7E4 /* Kingfisher */,
+				EA3BE6842D76F07D00741461 /* RealmSwift */,
 			);
 			productName = Shopping;
 			productReference = EA4183F42D6DABC200C2A7E4 /* Shopping.app */;
@@ -136,6 +139,7 @@
 				EA41842E2D6DACD600C2A7E4 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				EA4184312D6DAD1000C2A7E4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				EA4184342D6DADF400C2A7E4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				EA3BE6832D76F07D00741461 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EA4183F52D6DABC200C2A7E4 /* Products */;
@@ -375,6 +379,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EA3BE6832D76F07D00741461 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 20.0.1;
+			};
+		};
 		EA4184292D6DACCC00C2A7E4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -410,6 +422,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EA3BE6842D76F07D00741461 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EA3BE6832D76F07D00741461 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		EA41842A2D6DACCC00C2A7E4 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EA4184292D6DACCC00C2A7E4 /* XCRemoteSwiftPackageReference "RxSwift" */;
